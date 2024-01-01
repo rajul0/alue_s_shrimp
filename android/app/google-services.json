@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "906542736781",
+    "project_id": "alue-s-shrimp",
+    "storage_bucket": "alue-s-shrimp.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:906542736781:android:effd4f68822195d1d109c4",
+        "android_client_info": {
+          "package_name": "com.example.alues_shrimp_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDAj661e0j7yBaDxEeOI9GbmQYF9EY-Myo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -7,7 +7,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  // await Firebase.initializeApp();
+  await Firebase.initializeApp();
   await loadFonts();
   bool isLoggedIn = await checkLoginStatus();
 
@@ -18,7 +18,7 @@ void main() async {
 
 Future<bool> checkLoginStatus() async {
   // hanya butuh sekali login
-  // User? user = FirebaseAuth.instance.currentUser;
+  User? user = FirebaseAuth.instance.currentUser;
   return false;
 }
 

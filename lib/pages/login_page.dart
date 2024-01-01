@@ -1,4 +1,7 @@
+import 'package:alues_shrimp_app/pages/home_page_navbar.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -10,15 +13,37 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   final _formKey = GlobalKey<FormState>();
   AutovalidateMode _autoValidateMode = AutovalidateMode.disabled;
+  final FirebaseAuth auth = FirebaseAuth.instance;
 
   var _errorLoginMessage = '';
-  var _errorUsername = '';
-  var _errorPassword = '';
+
+  var _noHp = '';
+  var _password = '';
+
+  void _login() async {
+    try {
+      await auth.signInWithEmailAndPassword(
+          email: '${_noHp}@as.com', password: _password);
+      // mendapatkan sebagai akunnya
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      await prefs.setBool('isLoggedIn', true);
+
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => HomePageNavBar()),
+      );
+    } on FirebaseAuthException catch (_) {
+      setState(() {
+        _errorLoginMessage = 'No HP atau password yang anda masukkan salah';
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
+        height: MediaQuery.of(context).size.height,
         decoration: BoxDecoration(
           gradient: LinearGradient(
             colors: [
@@ -102,19 +127,22 @@ class _LoginPageState extends State<LoginPage> {
                             ),
                             validator: (value) {
                               if (value == '') {
-                                setState(() {
-                                  _errorUsername = "Username can't be empty";
-                                });
+                                return "Nomor Hp tidak boleh kosong";
                               }
-                              return null;
+                            },
+                            onChanged: (value) {
+                              setState(() {
+                                _errorLoginMessage = '';
+                                _noHp = value;
+                              });
                             },
                             decoration: InputDecoration(
+                              prefix: SizedBox(width: 30.0),
                               filled: true,
                               fillColor: Color(0xFF7DC1F1),
                               alignLabelWithHint: true,
                               contentPadding: EdgeInsets.symmetric(
                                 vertical: 0.0,
-                                horizontal: 90.0,
                               ),
                               labelStyle: TextStyle(
                                   color: Color(0xFF4B7491),
@@ -127,9 +155,10 @@ class _LoginPageState extends State<LoginPage> {
                                   fontFamily: 'ComicNeue'),
                               border: OutlineInputBorder(
                                   borderRadius:
-                                      BorderRadius.all(Radius.circular(20.0)),
+                                      BorderRadius.all(Radius.circular(25.0)),
                                   borderSide: BorderSide(
                                     color: Color(0xFF2D846F),
+                                    width: 2.0,
                                   )),
                             ),
                           ),
@@ -144,22 +173,22 @@ class _LoginPageState extends State<LoginPage> {
                             ),
                             validator: (value) {
                               if (value == '') {
-                                setState(() {
-                                  _errorUsername = "Username can't be empty";
-                                });
+                                return "Password tidak boleh kosong";
                               }
-                              return null;
+                            },
+                            onChanged: (value) {
+                              setState(() {
+                                _errorLoginMessage = '';
+                                _password = value;
+                              });
                             },
                             decoration: InputDecoration(
-                              prefix: Container(
-                                width: 10.0,
-                              ),
+                              prefix: SizedBox(width: 30.0),
                               filled: true,
                               fillColor: Color(0xFF7DC1F1),
                               alignLabelWithHint: true,
                               contentPadding: EdgeInsets.symmetric(
                                 vertical: 0.0,
-                                horizontal: 120.0,
                               ),
                               labelStyle: TextStyle(
                                   color: Color(0xFF4B7491),
@@ -172,12 +201,71 @@ class _LoginPageState extends State<LoginPage> {
                                   fontFamily: 'ComicNeue'),
                               border: OutlineInputBorder(
                                   borderRadius:
-                                      BorderRadius.all(Radius.circular(20.0)),
+                                      BorderRadius.all(Radius.circular(25.0)),
                                   borderSide: BorderSide(
                                     color: Color(0xFF2D846F),
+                                    width: 2.0,
                                   )),
                             ),
                           ),
+                          SizedBox(
+                            height: 5.0,
+                          ),
+                          Align(
+                            alignment: Alignment.topLeft,
+                            child: Padding(
+                              padding: const EdgeInsets.only(left: 20.0),
+                              child: GestureDetector(
+                                onTap: () {},
+                                child: Text(
+                                  'Lupa Password?',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontFamily: 'Inter',
+                                    fontWeight: FontWeight.normal,
+                                    fontSize: 12.0,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            height: 20.0,
+                          ),
+                          SizedBox(
+                            width: double.infinity,
+                            child: ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                  side: BorderSide(
+                                    color: Color(0xFF2D846F),
+                                    width: 2.0,
+                                  ),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(25.0),
+                                  ),
+                                  backgroundColor: Color(0xFF7DC1F1),
+                                  elevation: 0.0,
+                                ),
+                                onPressed: () {
+                                  if (_formKey.currentState!.validate()) {
+                                    _login();
+                                  } else {
+                                    setState(() {
+                                      _autoValidateMode =
+                                          AutovalidateMode.always;
+                                    });
+                                  }
+                                },
+                                child: Text(
+                                  'Masuk',
+                                  style: TextStyle(
+                                    fontFamily: 'ComicNeue',
+                                    fontSize: 22.0,
+                                    color: Color(0xFF263A48),
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                )),
+                          )
                         ],
                       ),
                     ),
