@@ -1,11 +1,13 @@
-import 'package:alues_shrimp_app/pages/home_page_navbar.dart';
+import 'package:alues_shrimp_app/pages/home_page/home_page_navbar.dart';
 import 'package:alues_shrimp_app/pages/login_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:intl/date_symbol_data_local.dart';
 
 void main() async {
+  await initializeDateFormatting('id_ID', null);
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   await loadFonts();
@@ -37,7 +39,7 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           fontFamily: 'Inter',
         ),
-        home: HomePageNavBar(),
+        home: HomePageNav(),
       );
     } else {
       return MaterialApp(

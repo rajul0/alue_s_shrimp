@@ -1,4 +1,4 @@
-import 'package:alues_shrimp_app/pages/home_page_navbar.dart';
+import 'package:alues_shrimp_app/pages/home_page/home_page_navbar.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -28,9 +28,8 @@ class _LoginPageState extends State<LoginPage> {
       SharedPreferences prefs = await SharedPreferences.getInstance();
       await prefs.setBool('isLoggedIn', true);
 
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => HomePageNavBar()),
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(builder: (context) => HomePageNav()),
       );
     } on FirebaseAuthException catch (_) {
       setState(() {
@@ -128,6 +127,8 @@ class _LoginPageState extends State<LoginPage> {
                             validator: (value) {
                               if (value == '') {
                                 return "Nomor Hp tidak boleh kosong";
+                              } else {
+                                return null;
                               }
                             },
                             onChanged: (value) {
@@ -174,6 +175,8 @@ class _LoginPageState extends State<LoginPage> {
                             validator: (value) {
                               if (value == '') {
                                 return "Password tidak boleh kosong";
+                              } else {
+                                return null;
                               }
                             },
                             onChanged: (value) {
