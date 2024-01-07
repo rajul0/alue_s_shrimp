@@ -1,4 +1,5 @@
-import 'package:alues_shrimp_app/pages/home_page/component/cardIndexPh.dart';
+import 'package:alues_shrimp_app/pages/home_page/component/feedCalenderCard.dart';
+import 'package:alues_shrimp_app/pages/home_page/component/indexPhCard.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:intl/intl.dart';
@@ -132,7 +133,97 @@ class _HomePageState extends State<HomePage> {
                   SizedBox(
                     height: 20.0,
                   ),
-                  CardIndexPh(),
+                  Align(
+                      alignment: Alignment.topLeft,
+                      child: Text(
+                        'Indeks pH saat ini',
+                        style: TextStyle(
+                          fontSize: 18.0,
+                          fontFamily: 'Inter',
+                          color: Colors.white,
+                        ),
+                      )),
+                  indexPhCard(),
+                  SizedBox(
+                    height: 68.0,
+                  ),
+                  Align(
+                    alignment: Alignment.topLeft,
+                    child: Text(
+                      'Kalender Pakan Saya',
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontFamily: 'Inter',
+                          fontSize: 16.0),
+                    ),
+                  ),
+                  FeedCalenderCard(),
+                  SizedBox(
+                    height: 18.0,
+                  ),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Image.asset(
+                        'assets/images/udang_hijau.png',
+                        width: 18.0,
+                      ),
+                      SizedBox(
+                        width: 8.0,
+                      ),
+                      Text(
+                        'Pemberian Pakan selesai',
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontFamily: 'Inter',
+                            fontSize: 14.0),
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    height: 5.0,
+                  ),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Image.asset(
+                        'assets/images/udang_kuning.png',
+                        width: 18.0,
+                      ),
+                      SizedBox(
+                        width: 8.0,
+                      ),
+                      Text(
+                        'Pemebrian Pakan sedang berlangsung',
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontFamily: 'Inter',
+                            fontSize: 14.0),
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    height: 5.0,
+                  ),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Image.asset(
+                        'assets/images/udang_merah.png',
+                        width: 18.0,
+                      ),
+                      SizedBox(
+                        width: 8.0,
+                      ),
+                      Text(
+                        'Pemberian Pakan akan segera dilakukan',
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontFamily: 'Inter',
+                            fontSize: 14.0),
+                      ),
+                    ],
+                  ),
                 ],
               ),
             ),
