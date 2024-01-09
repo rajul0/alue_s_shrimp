@@ -1,4 +1,7 @@
+import 'package:alues_shrimp_app/proses/get_data.dart';
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:intl/intl.dart';
 
 class FeedCalenderCard extends StatefulWidget {
   const FeedCalenderCard({super.key});
@@ -8,36 +11,116 @@ class FeedCalenderCard extends StatefulWidget {
 }
 
 class _FeedCalenderCardState extends State<FeedCalenderCard> {
+  Future fetchData() async {
+    return await getPengaturanPakan();
+  }
+
+  DateTime? parseTimeString(String timeString) {
+    try {
+      // Assuming the time is in the format "HH:mm"
+      List<String> parts = timeString.split(':');
+
+      if (parts.length == 2) {
+        int hour = int.parse(parts[0]);
+        int minute = int.parse(parts[1]);
+
+        DateTime parsedTime = DateTime(0, 1, 1, hour, minute);
+        return parsedTime;
+      } else {
+        throw FormatException('Invalid time format');
+      }
+    } catch (e) {
+      return null;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
-      child: Row(
-        children: [
-          oneFeedTimeCard(
-              '1 Desember 2023', ['08:00', '09:00'], 'mendatang', '100'),
-          oneFeedTimeCard(
-              '1 Desember 2023', ['08:00', '09:00'], 'mendatang', '100'),
-          oneFeedTimeCard('1 Mei 2023', ['08:00', '09:00'], 'mendatang', '100'),
-          oneFeedTimeCard(
-              '1 Desember 2023', ['08:00', '09:00'], 'mendatang', '100'),
-          oneFeedTimeCard(
-              '1 Desember 2023', ['08:00', '09:00'], 'mendatang', '100'),
-        ],
+      child: FutureBuilder(
+        future: fetchData(),
+        builder: (BuildContext context, AsyncSnapshot snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Column(
+              children: [
+                CircularProgressIndicator(),
+                SizedBox(
+                  height: 20,
+                ),
+                Text('Memuat...'),
+              ],
+            );
+          } else if (snapshot.hasError) {
+            // Ketika terjadi error dalam pengambilan data
+            return Text('Error: ${snapshot.error}');
+          } else if (!snapshot.hasData || snapshot.data.isEmpty) {
+            return Text(
+              overflow: TextOverflow.ellipsis,
+              maxLines: 2,
+              "Belum ada pengaturan jadwal pemberian Pakan",
+              style: TextStyle(
+                  fontFamily: 'Inria Sans',
+                  fontSize: 14.0,
+                  color: Color(0xFF878585)),
+            );
+          } else {
+            List items = snapshot.data!;
+
+            return Row(
+              children: List.generate(items.length, (index) {
+                // tanggal pemberian pakan
+                Timestamp datePemberianPakan =
+                    items[index]['tanggal_pemberian_pakan'];
+                DateTime datePemberianPakanConvert =
+                    datePemberianPakan.toDate();
+
+                // waktu mulai pemberian pakan
+                DateTime? timeMulai =
+                    parseTimeString(items[index]['jam_mulai']);
+
+                // waktu mulai pemberian pakan
+                DateTime? timeSelesai =
+                    parseTimeString(items[index]['jam_selesai']);
+
+                //waktu pembelian pakan
+                List feedingTime = [timeMulai, timeSelesai];
+
+                var statusFeeding =
+                    items[index]['status_pemberian']; // status pemeberian pakan
+
+                var feedingPortion = items[index]
+                    ['porsi_pakan']; // porsi pemberian pakan per menit
+
+                return oneFeedTimeCard(context, datePemberianPakanConvert,
+                    feedingTime, statusFeeding, feedingPortion);
+              }),
+            );
+          }
+        },
       ),
     );
   }
 
-  Widget oneFeedTimeCard(date, List feedingTime, statusFeeding, feedPortion) {
+  Widget oneFeedTimeCard(BuildContext context, DateTime date, List feedingTime,
+      statusFeeding, feedPortion) {
     var imgPath = '';
 
-    if (statusFeeding == 'mendatang') {
+    if (statusFeeding == 'segera dilakukan') {
       imgPath = 'assets/images/udang_merah.png';
     } else if (statusFeeding == 'selesai') {
       imgPath = 'assets/images/udang_hijau.png';
     } else {
       imgPath = 'assets/images/udang_kuning.png';
     }
+
+    DateFormat dateFormat = DateFormat.yMMMMd('id_ID'); // tanggal
+    var tanggal = dateFormat.format(date); // tanggal
+
+    DateFormat jamFormat = DateFormat('HH:mm'); // jam mulai
+
+    var jamMulai = jamFormat.format(feedingTime[0]); // jam Mulai
+    var jamSelesai = jamFormat.format(feedingTime[1]); // jam selesai
 
     return SizedBox(
       width: 91.0,
@@ -61,7 +144,7 @@ class _FeedCalenderCardState extends State<FeedCalenderCard> {
                 child: Align(
                   alignment: Alignment.topCenter,
                   child: Text(
-                    date,
+                    tanggal,
                     style: TextStyle(
                       color: Colors.black,
                       fontFamily: 'Inter',
@@ -96,7 +179,7 @@ class _FeedCalenderCardState extends State<FeedCalenderCard> {
                     height: 15.0,
                   ),
                   Text(
-                    '${feedingTime[0]} WIB',
+                    '${jamMulai} WIB',
                     style: TextStyle(
                       color: Color(0xFFFFC107),
                       fontFamily: 'CominNeue',
@@ -118,7 +201,7 @@ class _FeedCalenderCardState extends State<FeedCalenderCard> {
                     height: 8.0,
                   ),
                   Text(
-                    '${feedingTime[1]} WIB',
+                    '${jamSelesai} WIB',
                     style: TextStyle(
                       color: Color(0xFFFFC107),
                       fontFamily: 'CominNeue',
@@ -129,7 +212,7 @@ class _FeedCalenderCardState extends State<FeedCalenderCard> {
                     height: 13.0,
                   ),
                   Text(
-                    feedingTime[0],
+                    jamMulai,
                     style: TextStyle(
                       color: Colors.black,
                       fontFamily: 'Inter',
