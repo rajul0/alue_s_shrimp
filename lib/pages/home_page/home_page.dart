@@ -1,7 +1,5 @@
 import 'package:alues_shrimp_app/pages/home_page/component/feedCalenderCard.dart';
 import 'package:alues_shrimp_app/pages/home_page/component/indexPhCard.dart';
-import 'package:alues_shrimp_app/proses/get_data.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:intl/intl.dart';
@@ -144,7 +142,7 @@ class _HomePageState extends State<HomePage> {
                           color: Colors.white,
                         ),
                       )),
-                  indexPhCard(),
+                  IndexPhCard(),
                   SizedBox(
                     height: 68.0,
                   ),

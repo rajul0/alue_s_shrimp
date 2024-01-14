@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_database/firebase_database.dart';
 
-class indexPhCard extends StatefulWidget {
-  const indexPhCard({super.key});
+class IndexPhCard extends StatefulWidget {
+  const IndexPhCard({super.key});
 
   @override
-  State<indexPhCard> createState() => _indexPhCardState();
+  State<IndexPhCard> createState() => _indexPhCardState();
 }
 
-class _indexPhCardState extends State<indexPhCard>
+class _indexPhCardState extends State<IndexPhCard>
     with SingleTickerProviderStateMixin {
   late AnimationController _controller;
 

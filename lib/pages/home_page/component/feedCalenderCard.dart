@@ -42,14 +42,11 @@ class _FeedCalenderCardState extends State<FeedCalenderCard> {
         future: fetchData(),
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Column(
-              children: [
-                CircularProgressIndicator(),
-                SizedBox(
-                  height: 20,
-                ),
-                Text('Memuat...'),
-              ],
+            return Padding(
+              padding: const EdgeInsets.symmetric(vertical: 60.0),
+              child: CircularProgressIndicator(
+                color: Colors.black,
+              ),
             );
           } else if (snapshot.hasError) {
             // Ketika terjadi error dalam pengambilan data
@@ -125,9 +122,6 @@ class _FeedCalenderCardState extends State<FeedCalenderCard> {
     return SizedBox(
       width: 91.0,
       child: Container(
-        decoration: BoxDecoration(
-          color: Color(0xFF5377B4),
-        ),
         child: Column(children: [
           SizedBox(
             height: 48.0,

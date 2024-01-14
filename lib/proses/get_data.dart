@@ -14,3 +14,18 @@ Future<List<Map<String, dynamic>>?> getPengaturanPakan() async {
     return null;
   }
 }
+
+Future<List<Map<String, dynamic>>?> getDataIndexpH() async {
+  try {
+    QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+        .collection('riwayat_pH')
+        .orderBy('jam')
+        .get();
+    List<Map<String, dynamic>> data = querySnapshot.docs
+        .map((doc) => doc.data() as Map<String, dynamic>)
+        .toList();
+    return data;
+  } catch (e) {
+    return null;
+  }
+}
