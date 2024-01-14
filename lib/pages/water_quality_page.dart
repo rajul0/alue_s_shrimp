@@ -1,5 +1,4 @@
 import 'package:alues_shrimp_app/pages/home_page/component/historyPhCard.dart';
-import 'package:alues_shrimp_app/proses/get_data.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 

@@ -46,7 +46,7 @@ Widget historyPhCard(
 
             for (var data in items) {
               // Assuming 'value' is the field you want to use
-              double value = double.parse(data['indeks_pH'].toString()) ?? 0.0;
+              double value = double.parse(data['indeks_pH'].toString());
 
               spots.add(FlSpot(index.toDouble(), value.toDouble()));
               index++;
