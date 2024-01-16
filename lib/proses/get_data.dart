@@ -29,3 +29,19 @@ Future<List<Map<String, dynamic>>?> getDataIndexpH() async {
     return null;
   }
 }
+
+Future<List<Map<String, dynamic>>?> getDataUser(userId) async {
+  try {
+    QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+        .collection('akun')
+        .where('uid', isEqualTo: userId)
+        .get();
+    List<Map<String, dynamic>> data = querySnapshot.docs
+        .map((doc) => doc.data() as Map<String, dynamic>)
+        .toList();
+
+    return data;
+  } catch (e) {
+    return null;
+  }
+}

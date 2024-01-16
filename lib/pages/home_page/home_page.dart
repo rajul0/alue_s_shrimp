@@ -100,7 +100,7 @@ class _HomePageState extends State<HomePage> {
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
                             Text(
-                              "Halo ${displayName}",
+                              "Halo ${displayName ?? ''}",
                               style: TextStyle(
                                   color: Colors.white,
                                   fontSize: 25.0,
