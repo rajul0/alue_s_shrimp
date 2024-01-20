@@ -1,5 +1,7 @@
+import 'package:alues_shrimp_app/pages/feed_control_page/feeding_setting_page.dart';
 import 'package:alues_shrimp_app/pages/home_page/component/feedCalenderCard.dart';
-import 'package:alues_shrimp_app/pages/home_page/component/feedingSettingCard.dart';
+import 'package:alues_shrimp_app/pages/feed_control_page/component/feedingSettingCard.dart';
+import 'package:alues_shrimp_app/proses/get_data.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -28,6 +30,10 @@ class _FeedControlPageState extends State<FeedControlPage> {
 
     waktu =
         '${dayName} / ${day.toString()} - ${monthName} - ${year.toString()}';
+  }
+
+  Future fetchData() async {
+    return await getDataAlarm();
   }
 
   @override
@@ -137,14 +143,52 @@ class _FeedControlPageState extends State<FeedControlPage> {
                   SizedBox(
                     height: 35.0,
                   ),
-                  FeedingSettingCard(
-                    jamMulai: now,
+                  FutureBuilder(
+                    future: fetchData(),
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        // Ketika data masih dimuat, tampilkan indikator loading
+                        return CircularProgressIndicator();
+                      } else if (snapshot.hasError) {
+                        // Ketika terjadi error dalam pengambilan data
+                        return Text('Error: ${snapshot.error}');
+                      } else {
+                        var data = snapshot.data!;
+                        return Column(
+                          children: List.generate(
+                            data.length,
+                            (index) => Column(
+                              children: [
+                                FeedingSettingCard(
+                                  jamMulai: data[index]['jam_mulai'],
+                                  data: data[index],
+                                ),
+                                SizedBox(
+                                  height: 10.0,
+                                ),
+                              ],
+                            ),
+                          ),
+                        );
+                      }
+                    },
                   ),
                 ],
               ),
             ),
           ),
         ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: Color(0xFFD9D9D9),
+        onPressed: () {
+          Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (context) => FeedingSettingPage(),
+            ),
+          );
+        },
+        child: Icon(Icons.add), // Ikon di dalam Floating Action Button
       ),
     );
   }

@@ -45,3 +45,27 @@ Future<List<Map<String, dynamic>>?> getDataUser(userId) async {
     return null;
   }
 }
+
+Future getDataAlarm() async {
+  List hasil = [];
+
+  try {
+    QuerySnapshot querySnapshot =
+        await FirebaseFirestore.instance.collection('alarm_pakan').get();
+    querySnapshot.docs.forEach((doc) {
+      var data = {};
+      data['jam_mulai'] = doc['jam_mulai'];
+      data['jam_selesai'] = doc['jam_selesai'];
+      data['judul'] = doc['judul'];
+      data['porsi_pakan'] = doc['porsi_pakan'];
+      data['hari_pemberian_pakan'] = doc['hari_pemberian_pakan'];
+      data['doc_id'] = doc.id;
+
+      hasil.add(data);
+    });
+    print(hasil);
+    return hasil;
+  } catch (e) {
+    return null;
+  }
+}

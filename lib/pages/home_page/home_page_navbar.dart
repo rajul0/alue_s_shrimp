@@ -1,4 +1,4 @@
-import 'package:alues_shrimp_app/pages/feed_control_page.dart';
+import 'package:alues_shrimp_app/pages/feed_control_page/feed_control_page.dart';
 import 'package:alues_shrimp_app/pages/home_page/home_page.dart';
 import 'package:alues_shrimp_app/pages/profile_page.dart';
 import 'package:alues_shrimp_app/pages/water_quality_page.dart';

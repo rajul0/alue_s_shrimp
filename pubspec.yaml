@@ -39,6 +39,7 @@ dependencies:
   cloud_firestore: ^4.14.0
   firebase_database: ^10.4.0
   fl_chart: ^0.66.0
+  flutter_cupertino_date_picker_fork: ^1.0.7
 
 dev_dependencies:
   flutter_test:

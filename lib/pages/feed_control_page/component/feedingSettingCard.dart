@@ -2,12 +2,14 @@ import 'package:flutter/material.dart';
 
 // ignore: must_be_immutable
 class FeedingSettingCard extends StatefulWidget {
-  final DateTime jamMulai;
+  String jamMulai;
+  Map data;
   bool isSwitched = false;
 
   FeedingSettingCard({
     Key? key,
     required this.jamMulai,
+    required this.data,
   }) : super(key: key);
 
   @override
@@ -59,7 +61,7 @@ class _FeedingSettingCardState extends State<FeedingSettingCard> {
               child: Padding(
                 padding: EdgeInsets.only(left: 10.0),
                 child: Text(
-                  '08:00 WIB',
+                  '${widget.jamMulai} WIB',
                   style: TextStyle(
                     color: Colors.black,
                     fontSize: 26.0,
