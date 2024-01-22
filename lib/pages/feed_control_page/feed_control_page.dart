@@ -164,7 +164,7 @@ class _FeedControlPageState extends State<FeedControlPage> {
                                   data: data[index],
                                 ),
                                 SizedBox(
-                                  height: 10.0,
+                                  height: 15.0,
                                 ),
                               ],
                             ),

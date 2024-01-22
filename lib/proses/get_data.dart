@@ -63,7 +63,6 @@ Future getDataAlarm() async {
 
       hasil.add(data);
     });
-    print(hasil);
     return hasil;
   } catch (e) {
     return null;

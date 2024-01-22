@@ -2,14 +2,15 @@ import "package:cloud_firestore/cloud_firestore.dart";
 import "package:flutter/material.dart";
 import "package:flutter/services.dart";
 
+// ignore: must_be_immutable
 class FeedingSettingPage extends StatefulWidget {
-  // final DateTime jamMulai;
-  // bool isSwitched = false;
+  Map dataJadwal;
+  bool isSwitched = false;
 
-  // FeedingSettingPage({
-  //   Key? key,
-  //   required this.jamMulai,
-  // }) : super(key: key);
+  FeedingSettingPage({
+    Key? key,
+    this.dataJadwal = const {},
+  }) : super(key: key);
 
   @override
   _FeedingSettingPageState createState() => _FeedingSettingPageState();
@@ -35,6 +36,28 @@ class _FeedingSettingPageState extends State<FeedingSettingPage> {
   String? _atur;
 
   int _banyakPakanPerMenit = 0;
+
+  void initState() {
+    super.initState();
+
+    if (widget.dataJadwal.isNotEmpty) {
+      int colonIndex = widget.dataJadwal['jam_mulai'].toString().indexOf(':');
+      _judul = widget.dataJadwal['judul'];
+      _jamMulai =
+          widget.dataJadwal['jam_mulai'].toString().substring(0, colonIndex);
+
+      _menitMulai =
+          widget.dataJadwal['jam_mulai'].toString().substring(colonIndex);
+
+      _jamSelesai =
+          widget.dataJadwal['jam_selesai'].toString().substring(0, colonIndex);
+
+      _menitSelesai =
+          widget.dataJadwal['jam_mulai'].toString().substring(colonIndex);
+
+      _banyakPakanPerMenit = widget.dataJadwal['porsi_pakan'];
+    }
+  }
 
   Map<String, dynamic> data = {};
 
@@ -92,7 +115,7 @@ class _FeedingSettingPageState extends State<FeedingSettingPage> {
     }
     data['jam_mulai'] = '$_jamMulai:$_menitMulai';
     data['jam_selesai'] = '$_jamSelesai:$_menitSelesai';
-    data['porsi_pakan'] = _banyakPakanPerMenit.toString();
+    data['porsi_pakan'] = _banyakPakanPerMenit;
     data['hari_pemberian_pakan'] = getSelectedDays(days);
 
     await firestore.collection('alarm_pakan').add(data);
@@ -117,85 +140,85 @@ class _FeedingSettingPageState extends State<FeedingSettingPage> {
         ),
         child: Stack(
           children: [
-            SingleChildScrollView(
-              child: Container(
-                padding: EdgeInsets.all(0.0),
-                width: double.infinity,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    SizedBox(
-                      height: 50.0,
+            Container(
+              padding: EdgeInsets.all(0.0),
+              width: double.infinity,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  SizedBox(
+                    height: 50.0,
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(
+                      left: 20.0,
+                      top: 26.0,
+                      right: 20.0,
+                      bottom: 6.0,
                     ),
-                    Padding(
-                      padding: EdgeInsets.only(
-                        left: 20.0,
-                        top: 26.0,
-                        right: 20.0,
-                        bottom: 6.0,
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          // Dropdown untuk Jam
-                          DropdownButton<String>(
-                            value: _selectedHour,
-                            onChanged: (String? newValue) {
-                              setState(() {
-                                _atur = 'jam';
-                                _selectTime(_pilihWaktu, jam: newValue);
-                              });
-                            },
-                            dropdownColor: Color(0xFF5479AF),
-                            items: List.generate(24, (index) {
-                              return DropdownMenuItem(
-                                value: index.toString().padLeft(2, '0'),
-                                child: Text(
-                                  index.toString().padLeft(2, '0'),
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 18.0,
-                                    fontFamily: 'ComicNeue',
-                                  ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        // Dropdown untuk Jam
+                        DropdownButton<String>(
+                          value: _selectedHour,
+                          onChanged: (String? newValue) {
+                            setState(() {
+                              _atur = 'jam';
+                              _selectTime(_pilihWaktu, jam: newValue);
+                            });
+                          },
+                          dropdownColor: Color(0xFF5479AF),
+                          items: List.generate(24, (index) {
+                            return DropdownMenuItem(
+                              value: index.toString().padLeft(2, '0'),
+                              child: Text(
+                                index.toString().padLeft(2, '0'),
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 18.0,
+                                  fontFamily: 'ComicNeue',
                                 ),
-                              );
-                            }),
-                          ),
-                          SizedBox(
-                            width: 15.0,
-                          ),
-                          // Dropdown untuk Menit
-                          DropdownButton<String>(
-                            value: _selectedMinute,
-                            onChanged: (String? newValue) {
-                              setState(() {
-                                _atur = 'menit';
-                                _selectTime(_pilihWaktu, menit: newValue);
-                              });
-                            },
-                            dropdownColor: Color(0xFF5479AF),
-                            items: List.generate(60, (index) {
-                              return DropdownMenuItem(
-                                value: index.toString().padLeft(2, '0'),
-                                child: Text(
-                                  index.toString().padLeft(2, '0'),
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 18.0,
-                                    fontFamily: 'ComicNeue',
-                                  ),
+                              ),
+                            );
+                          }),
+                        ),
+                        SizedBox(
+                          width: 15.0,
+                        ),
+                        // Dropdown untuk Menit
+                        DropdownButton<String>(
+                          value: _selectedMinute,
+                          onChanged: (String? newValue) {
+                            setState(() {
+                              _atur = 'menit';
+                              _selectTime(_pilihWaktu, menit: newValue);
+                            });
+                          },
+                          dropdownColor: Color(0xFF5479AF),
+                          items: List.generate(60, (index) {
+                            return DropdownMenuItem(
+                              value: index.toString().padLeft(2, '0'),
+                              child: Text(
+                                index.toString().padLeft(2, '0'),
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 18.0,
+                                  fontFamily: 'ComicNeue',
                                 ),
-                              );
-                            }),
-                          ),
-                        ],
-                      ),
+                              ),
+                            );
+                          }),
+                        ),
+                      ],
                     ),
-                    SizedBox(
-                      height: 75.0,
-                    ),
-                    Container(
+                  ),
+                  SizedBox(
+                    height: 75.0,
+                  ),
+                  Expanded(
+                    child: Container(
                       padding: EdgeInsets.symmetric(
                         vertical: 18.0,
                         horizontal: 21.0,
@@ -206,6 +229,8 @@ class _FeedingSettingPageState extends State<FeedingSettingPage> {
                         borderRadius: BorderRadius.only(
                           topLeft: Radius.circular(25.0),
                           topRight: Radius.circular(25.0),
+                          bottomRight: Radius.circular(25.0),
+                          bottomLeft: Radius.circular(25.0),
                         ),
                       ),
                       child: Column(
@@ -406,8 +431,8 @@ class _FeedingSettingPageState extends State<FeedingSettingPage> {
                         ],
                       ),
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
             Positioned(

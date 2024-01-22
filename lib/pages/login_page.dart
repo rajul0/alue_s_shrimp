@@ -31,10 +31,24 @@ class _LoginPageState extends State<LoginPage> {
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(builder: (context) => HomePageNav()),
       );
-    } on FirebaseAuthException catch (_) {
-      setState(() {
-        _errorLoginMessage = 'No HP atau password yang anda masukkan salah';
-      });
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'user-not-found') {
+        setState(() {
+          _errorLoginMessage = 'User tidak ditemukan.';
+        });
+      } else if (e.code == 'wrong-password') {
+        setState(() {
+          _errorLoginMessage = 'No HP atau password yang anda masukkan salah';
+        });
+      } else if (e.code == 'invalid-email') {
+        setState(() {
+          _errorLoginMessage = 'No HP atau password yang anda masukkan salah';
+        });
+      } else {
+        setState(() {
+          _errorLoginMessage = 'Terdapat kesalahan, coba lagi beberapa saat';
+        });
+      }
     }
   }
 
