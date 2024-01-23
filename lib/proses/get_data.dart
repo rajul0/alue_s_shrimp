@@ -1,6 +1,7 @@
 import "package:cloud_firestore/cloud_firestore.dart";
 
 Future<List<Map<String, dynamic>>?> getPengaturanPakan() async {
+  List dataa = [];
   try {
     QuerySnapshot querySnapshot = await FirebaseFirestore.instance
         .collection('pengaturan_pakan')
@@ -9,6 +10,28 @@ Future<List<Map<String, dynamic>>?> getPengaturanPakan() async {
     List<Map<String, dynamic>> data = querySnapshot.docs
         .map((doc) => doc.data() as Map<String, dynamic>)
         .toList();
+
+    QuerySnapshot querySnapshot2 = await FirebaseFirestore.instance
+        .collection('pengaturan_pakan')
+        .where('berulang', isEqualTo: true)
+        .get();
+    querySnapshot2.docs.forEach((doc) {
+      for (Map data1 in doc['data']) {
+        print(doc);
+        var dataSatu = {};
+
+        dataSatu['jam_mulai'] = data1['jam_mulai'];
+        dataSatu['jam_selesai'] = data1['jam_selesai'];
+        dataSatu['judul'] = data1['judul'];
+        dataSatu['porsi_pakan'] = data1['porsi_pakan'];
+        dataSatu['hari_pemberian_pakan'] = data1['hari_pemberian_pakan'];
+        dataSatu['status_hidup'] = data1['status_hidup'];
+        dataSatu['doc_id_ref'] = doc['doc_id_ref'];
+
+        dataa.add(data);
+      }
+    });
+    print(dataa);
     return data;
   } catch (e) {
     return null;
@@ -59,6 +82,7 @@ Future getDataAlarm() async {
       data['judul'] = doc['judul'];
       data['porsi_pakan'] = doc['porsi_pakan'];
       data['hari_pemberian_pakan'] = doc['hari_pemberian_pakan'];
+      data['status_hidup'] = doc['status_hidup'];
       data['doc_id'] = doc.id;
 
       hasil.add(data);

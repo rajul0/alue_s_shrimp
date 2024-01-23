@@ -1,18 +1,17 @@
 import 'package:alues_shrimp_app/pages/feed_control_page/feeding_setting_page.dart';
 import 'package:alues_shrimp_app/proses/proses_data.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 // ignore: must_be_immutable
 class FeedingSettingCard extends StatefulWidget {
   String jamMulai;
   Map data;
-  bool isSwitched = false;
-
+  bool isSwitched;
   FeedingSettingCard({
     Key? key,
     required this.jamMulai,
     required this.data,
+    required this.isSwitched,
   }) : super(key: key);
 
   @override
@@ -20,8 +19,6 @@ class FeedingSettingCard extends StatefulWidget {
 }
 
 class _FeedingSettingCardState extends State<FeedingSettingCard> {
-  final FirebaseFirestore _db = FirebaseFirestore.instance;
-
   @override
   Widget build(BuildContext context) {
     return GestureDetector(

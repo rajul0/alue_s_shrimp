@@ -1,3 +1,4 @@
+import "package:alues_shrimp_app/proses/proses_data.dart";
 import "package:cloud_firestore/cloud_firestore.dart";
 import "package:flutter/material.dart";
 import "package:flutter/services.dart";
@@ -36,28 +37,6 @@ class _FeedingSettingPageState extends State<FeedingSettingPage> {
   String? _atur;
 
   int _banyakPakanPerMenit = 0;
-
-  void initState() {
-    super.initState();
-
-    if (widget.dataJadwal.isNotEmpty) {
-      int colonIndex = widget.dataJadwal['jam_mulai'].toString().indexOf(':');
-      _judul = widget.dataJadwal['judul'];
-      _jamMulai =
-          widget.dataJadwal['jam_mulai'].toString().substring(0, colonIndex);
-
-      _menitMulai =
-          widget.dataJadwal['jam_mulai'].toString().substring(colonIndex);
-
-      _jamSelesai =
-          widget.dataJadwal['jam_selesai'].toString().substring(0, colonIndex);
-
-      _menitSelesai =
-          widget.dataJadwal['jam_mulai'].toString().substring(colonIndex);
-
-      _banyakPakanPerMenit = widget.dataJadwal['porsi_pakan'];
-    }
-  }
 
   Map<String, dynamic> data = {};
 
@@ -108,19 +87,62 @@ class _FeedingSettingPageState extends State<FeedingSettingPage> {
   }
 
   void simpanData() async {
-    if (_judul == '') {
-      data['judul'] = 'Tidak ada judul';
-    } else {
+    if (widget.dataJadwal.isNotEmpty) {
       data['judul'] = _judul;
+      data['jam_mulai'] = '$_jamMulai:$_menitMulai';
+      data['jam_selesai'] = '$_jamSelesai:$_menitSelesai';
+      data['porsi_pakan'] = _banyakPakanPerMenit;
+      data['hari_pemberian_pakan'] = getSelectedDays(days);
+
+      var info = await updateJadwalPakan(data, widget.dataJadwal['doc_id']);
+
+      if (info == 'berhasil') {
+        Navigator.pop(context);
+      } else {
+        print('error');
+      }
+    } else {
+      if (_judul == '') {
+        data['judul'] = 'Tidak ada judul';
+      } else {
+        data['judul'] = _judul;
+      }
+      data['jam_mulai'] = '$_jamMulai:$_menitMulai';
+      data['jam_selesai'] = '$_jamSelesai:$_menitSelesai';
+      data['porsi_pakan'] = _banyakPakanPerMenit;
+      data['hari_pemberian_pakan'] = getSelectedDays(days);
+
+      await firestore.collection('alarm_pakan').add(data);
     }
-    data['jam_mulai'] = '$_jamMulai:$_menitMulai';
-    data['jam_selesai'] = '$_jamSelesai:$_menitSelesai';
-    data['porsi_pakan'] = _banyakPakanPerMenit;
-    data['hari_pemberian_pakan'] = getSelectedDays(days);
+  }
 
-    await firestore.collection('alarm_pakan').add(data);
+  void initState() {
+    super.initState();
+    if (widget.dataJadwal.isNotEmpty) {
+      int colonIndex = widget.dataJadwal['jam_mulai'].toString().indexOf(':');
+      _judul = widget.dataJadwal['judul'];
+      _jamMulai =
+          widget.dataJadwal['jam_mulai'].toString().substring(0, colonIndex);
 
-    Navigator.pop(context);
+      _menitMulai =
+          widget.dataJadwal['jam_mulai'].toString().substring(colonIndex + 1);
+
+      _jamSelesai =
+          widget.dataJadwal['jam_selesai'].toString().substring(0, colonIndex);
+
+      _menitSelesai =
+          widget.dataJadwal['jam_mulai'].toString().substring(colonIndex + 1);
+
+      _banyakPakanPerMenit = widget.dataJadwal['porsi_pakan'];
+
+      for (String hari in widget.dataJadwal['hari_pemberian_pakan']) {
+        for (int i = 0; i < days.length; i++) {
+          if (hari == days[i]['day']) {
+            days[i]['status'] = true;
+          }
+        }
+      }
+    }
   }
 
   @override

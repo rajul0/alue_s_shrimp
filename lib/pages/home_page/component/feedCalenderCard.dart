@@ -59,11 +59,10 @@ class _FeedCalenderCardState extends State<FeedCalenderCard> {
               style: TextStyle(
                   fontFamily: 'Inria Sans',
                   fontSize: 14.0,
-                  color: Color(0xFF878585)),
+                  color: Color(0xFFBFBFBF)),
             );
           } else {
             List items = snapshot.data!;
-
             return Row(
               children: List.generate(items.length, (index) {
                 // tanggal pemberian pakan

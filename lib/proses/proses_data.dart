@@ -62,6 +62,18 @@ void hidupkanJadwalPakan(dataJadwal) async {
 
       _db.collection('pengaturan_pakan').add(dataForFirebase);
     }
+
+    // Dapatkan referensi ke dokumen yang ingin diperbarui
+    DocumentReference documentReference = FirebaseFirestore.instance
+        .collection('alarm_pakan')
+        .doc(dataJadwal['doc_id']);
+
+    // Lakukan pembaruan field
+    await documentReference.update({
+      'status_hidup': true,
+    });
+
+    print('Field berhasil diperbarui.');
   } catch (e) {
     // Tangani kesalahan jika ada
     print('Terjadi kesalahan: $e');
@@ -138,4 +150,31 @@ void matikanJadwalPakan(dataJadwal) async {
       print('Error saat menghapus dokumen: $error');
     });
   });
+
+  try {
+    // Dapatkan referensi ke dokumen yang ingin diperbarui
+    DocumentReference documentReference = FirebaseFirestore.instance
+        .collection('alarm_pakan')
+        .doc(dataJadwal['doc_id']);
+
+    // Lakukan pembaruan field
+    await documentReference.update({
+      'status_hidup': false,
+    });
+
+    print('Field berhasil diperbarui.');
+  } catch (error) {
+    print('Error: $error');
+  }
+}
+
+Future updateJadwalPakan(dataJadwal, docId) async {
+  try {
+    DocumentReference documentReference =
+        FirebaseFirestore.instance.collection('alarm_pakan').doc(docId);
+    await documentReference.update(dataJadwal);
+    return 'berhasil';
+  } catch (e) {
+    print(e);
+  }
 }
