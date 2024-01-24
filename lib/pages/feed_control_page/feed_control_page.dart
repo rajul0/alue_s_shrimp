@@ -154,7 +154,6 @@ class _FeedControlPageState extends State<FeedControlPage> {
                         return Text('Error: ${snapshot.error}');
                       } else {
                         var data = snapshot.data!;
-                        print(data);
                         return Column(
                           children: List.generate(
                             data.length,
