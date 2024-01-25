@@ -98,9 +98,7 @@ class _FeedingSettingPageState extends State<FeedingSettingPage> {
 
       if (info == 'berhasil') {
         Navigator.pop(context);
-      } else {
-        print('error');
-      }
+      } else {}
     } else {
       if (_judul == '') {
         data['judul'] = 'Tidak ada judul';
@@ -111,8 +109,12 @@ class _FeedingSettingPageState extends State<FeedingSettingPage> {
       data['jam_selesai'] = '$_jamSelesai:$_menitSelesai';
       data['porsi_pakan'] = _banyakPakanPerMenit;
       data['hari_pemberian_pakan'] = getSelectedDays(days);
+      data['status_hidup'] = false;
+      try {
+        await firestore.collection('pengaturan_jadwal_pakan').add(data);
 
-      await firestore.collection('alarm_pakan').add(data);
+        Navigator.pop(context);
+      } catch (e) {}
     }
   }
 

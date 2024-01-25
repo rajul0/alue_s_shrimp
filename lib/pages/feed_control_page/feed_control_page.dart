@@ -151,9 +151,19 @@ class _FeedControlPageState extends State<FeedControlPage> {
                         return CircularProgressIndicator();
                       } else if (snapshot.hasError) {
                         // Ketika terjadi error dalam pengambilan data
-                        return Text('Error: ${snapshot.error}');
+                        return Text('Error: ${snapshot.hasError}');
+                      } else if (!snapshot.hasData || snapshot.data.isEmpty) {
+                        return Text(
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 2,
+                          "Belum ada ",
+                          style: TextStyle(
+                              fontFamily: 'Inria Sans',
+                              fontSize: 14.0,
+                              color: Color(0xFFBFBFBF)),
+                        );
                       } else {
-                        var data = snapshot.data!;
+                        var data = snapshot.data;
                         return Column(
                           children: List.generate(
                             data.length,

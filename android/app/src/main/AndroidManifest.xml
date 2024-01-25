@@ -1,6 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
     <application
-        android:label="alues_shrimp_app"
+        android:label="Alue Shrimp"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

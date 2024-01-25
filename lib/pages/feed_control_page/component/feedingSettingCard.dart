@@ -19,6 +19,8 @@ class FeedingSettingCard extends StatefulWidget {
 }
 
 class _FeedingSettingCardState extends State<FeedingSettingCard> {
+  Map data = {};
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(

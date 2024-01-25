@@ -21,7 +21,7 @@ void main() async {
 Future<bool> checkLoginStatus() async {
   // hanya butuh sekali login
   User? user = FirebaseAuth.instance.currentUser;
-  return false;
+  return user != null;
 }
 
 class MyApp extends StatelessWidget {

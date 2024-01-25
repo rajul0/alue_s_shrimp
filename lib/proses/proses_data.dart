@@ -38,7 +38,7 @@ void hidupkanJadwalPakan(dataJadwal) async {
         dataForFirebase['data'][data] = dataSatuHari;
       }
       dataForFirebase['doc_id_ref'] = dataJadwal['doc_id'];
-      _db.collection('pengaturan_pakan').add(dataForFirebase);
+      _db.collection('Jadwal_pakan').add(dataForFirebase);
     } else {
       Map<String, dynamic> dataForFirebase = {};
       dataForFirebase['jam_mulai'] = dataJadwal['jam_mulai'];
@@ -60,23 +60,20 @@ void hidupkanJadwalPakan(dataJadwal) async {
 
       dataForFirebase['doc_id_ref'] = dataJadwal['doc_id'];
 
-      _db.collection('pengaturan_pakan').add(dataForFirebase);
+      _db.collection('jadwal_pakan').add(dataForFirebase);
     }
 
     // Dapatkan referensi ke dokumen yang ingin diperbarui
     DocumentReference documentReference = FirebaseFirestore.instance
-        .collection('alarm_pakan')
+        .collection('pengaturan_jadwal_pakan')
         .doc(dataJadwal['doc_id']);
 
     // Lakukan pembaruan field
     await documentReference.update({
       'status_hidup': true,
     });
-
-    print('Field berhasil diperbarui.');
   } catch (e) {
     // Tangani kesalahan jika ada
-    print('Terjadi kesalahan: $e');
   }
 }
 
@@ -137,44 +134,35 @@ int getTanggalPakan(dataJam, {hari = ''}) {
 void matikanJadwalPakan(dataJadwal) async {
   final FirebaseFirestore _db = FirebaseFirestore.instance;
 
-  CollectionReference collectionRef = _db.collection('pengaturan_pakan');
+  CollectionReference collectionRef = _db.collection('jadwal_pakan');
 
   // Buat query untuk mendapatkan dokumen dengan nilai field yang sesuai
   QuerySnapshot querySnapshot = await collectionRef
       .where('doc_id_ref', isEqualTo: dataJadwal['doc_id'])
       .get();
   querySnapshot.docs.forEach((DocumentSnapshot document) {
-    document.reference.delete().then((value) {
-      print('Dokumen berhasil dihapus.');
-    }).catchError((error) {
-      print('Error saat menghapus dokumen: $error');
-    });
+    document.reference.delete().then((value) {}).catchError((error) {});
   });
 
   try {
     // Dapatkan referensi ke dokumen yang ingin diperbarui
     DocumentReference documentReference = FirebaseFirestore.instance
-        .collection('alarm_pakan')
+        .collection('pengaturan_jadwal_pakan')
         .doc(dataJadwal['doc_id']);
 
     // Lakukan pembaruan field
     await documentReference.update({
       'status_hidup': false,
     });
-
-    print('Field berhasil diperbarui.');
-  } catch (error) {
-    print('Error: $error');
-  }
+  } catch (error) {}
 }
 
 Future updateJadwalPakan(dataJadwal, docId) async {
   try {
-    DocumentReference documentReference =
-        FirebaseFirestore.instance.collection('alarm_pakan').doc(docId);
+    DocumentReference documentReference = FirebaseFirestore.instance
+        .collection('pengaturan_jadwal_pakan')
+        .doc(docId);
     await documentReference.update(dataJadwal);
     return 'berhasil';
-  } catch (e) {
-    print(e);
-  }
+  } catch (e) {}
 }
