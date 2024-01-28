@@ -20,6 +20,7 @@ class _FeedControlPageState extends State<FeedControlPage> {
     super.initState();
 
     _getDateTime();
+    Future.delayed(Duration(seconds: 1));
   }
 
   void _getDateTime() {
@@ -57,7 +58,7 @@ class _FeedControlPageState extends State<FeedControlPage> {
             child: Padding(
               padding: EdgeInsets.only(
                 left: 20.0,
-                top: 26.0,
+                top: 40.0,
                 right: 20.0,
                 bottom: 6.0,
               ),
@@ -66,11 +67,12 @@ class _FeedControlPageState extends State<FeedControlPage> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Align(
                         alignment: Alignment.topLeft,
                         child: SizedBox(
-                          height: 84.0,
+                          height: 70.0,
                           child: Image.asset('assets/images/logo_app.png'),
                         ),
                       ),
@@ -78,7 +80,7 @@ class _FeedControlPageState extends State<FeedControlPage> {
                         width: 29.0,
                       ),
                       Padding(
-                        padding: const EdgeInsets.only(top: 40.0),
+                        padding: const EdgeInsets.only(top: 0.0),
                         child: Row(
                           children: [
                             SizedBox(
@@ -94,7 +96,9 @@ class _FeedControlPageState extends State<FeedControlPage> {
                                   'Pemberian Pakan \n Sedang Berlangsung',
                                   style: TextStyle(
                                     color: Colors.white,
-                                    fontSize: 18.0,
+                                    fontSize:
+                                        MediaQuery.of(context).size.width *
+                                            0.04,
                                     fontFamily: 'Inter',
                                   ),
                                   textAlign: TextAlign.center,

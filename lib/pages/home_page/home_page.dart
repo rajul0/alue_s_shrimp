@@ -17,6 +17,7 @@ class _HomePageState extends State<HomePage> {
 
   String? displayName = '';
   String? waktu = '';
+  String hari = '';
 
   void initState() {
     super.initState();
@@ -31,8 +32,8 @@ class _HomePageState extends State<HomePage> {
     int day = now.day;
     int year = now.year;
 
-    waktu =
-        '${dayName} / ${day.toString()} - ${monthName} - ${year.toString()}';
+    waktu = '${day.toString()} - ${monthName} - ${year.toString()}';
+    hari = dayName;
   }
 
   void _getDisplayName() {
@@ -85,25 +86,24 @@ class _HomePageState extends State<HomePage> {
                   Align(
                     alignment: Alignment.topLeft,
                     child: SizedBox(
-                      height: 84.0,
+                      height: 70.0,
                       child: Image.asset('assets/images/logo_app.png'),
                     ),
                   ),
                   SizedBox(
-                    height: 15.0,
+                    height: 20.0,
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       IntrinsicWidth(
                         child: Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
                           children: [
                             Text(
                               "Halo ${displayName ?? ''}",
                               style: TextStyle(
                                   color: Colors.white,
-                                  fontSize: 25.0,
+                                  fontSize: 22.0,
                                   fontFamily: 'Inter'),
                             ),
                             Divider(
@@ -113,19 +113,24 @@ class _HomePageState extends State<HomePage> {
                           ],
                         ),
                       ),
-                      IntrinsicWidth(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Text(
-                              "${waktu}",
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 16.0,
-                                  fontFamily: 'Inter'),
-                            ),
-                          ],
-                        ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Text(
+                            "${hari}",
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 16.0,
+                                fontFamily: 'Inter'),
+                          ),
+                          Text(
+                            "${waktu}",
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 16.0,
+                                fontFamily: 'Inter'),
+                          ),
+                        ],
                       ),
                     ],
                   ),

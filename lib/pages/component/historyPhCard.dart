@@ -64,12 +64,27 @@ Widget historyPhCard(
 
                     String indekspH = items[index]['indeks_pH'].toString();
 
-                    return oneTimeHistorypH(context, jam, indekspH);
+                    return Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        oneTimeHistorypH(context, jam, indekspH),
+                        SizedBox(
+                          width: 2.0,
+                        ),
+                        !(index == items.length - 1)
+                            ? Container(
+                                width: 2.0,
+                                height: 50.0,
+                                color: Colors.black,
+                              )
+                            : SizedBox(),
+                      ],
+                    );
                   }),
                 ),
                 Expanded(
                   child: SizedBox(
-                    width: 67.0 * items.length,
+                    width: 79.0 * items.length,
                     child: Padding(
                       padding:
                           EdgeInsets.only(left: 2.0, top: 25.0, bottom: 25.0),
@@ -141,7 +156,7 @@ Widget oneTimeHistorypH(
 
   return SizedBox(
     height: 110.0,
-    width: 80.0,
+    width: 90.0,
     child: Container(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,

@@ -1,4 +1,4 @@
-import 'package:alues_shrimp_app/pages/home_page/component/historyPhCard.dart';
+import 'package:alues_shrimp_app/pages/component/historyPhCard.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 
@@ -44,7 +44,7 @@ class _WaterQualityPageState extends State<WaterQualityPage> {
                   Align(
                     alignment: Alignment.topLeft,
                     child: SizedBox(
-                      height: 84.0,
+                      height: 70.0,
                       child: Image.asset('assets/images/logo_app.png'),
                     ),
                   ),
