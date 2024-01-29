@@ -1,4 +1,5 @@
 import 'package:alues_shrimp_app/pages/component/historyPhCard.dart';
+import 'package:alues_shrimp_app/pages/home_page/home_page_navbar.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 
@@ -33,7 +34,7 @@ class _WaterQualityPageState extends State<WaterQualityPage> {
             child: Padding(
               padding: EdgeInsets.only(
                 left: 20.0,
-                top: 26.0,
+                top: 53.0,
                 right: 20.0,
                 bottom: 6.0,
               ),
@@ -43,9 +44,19 @@ class _WaterQualityPageState extends State<WaterQualityPage> {
                 children: [
                   Align(
                     alignment: Alignment.topLeft,
-                    child: SizedBox(
-                      height: 70.0,
-                      child: Image.asset('assets/images/logo_app.png'),
+                    child: GestureDetector(
+                      onTap: () {
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => HomePageNav(),
+                          ),
+                        );
+                      },
+                      child: SizedBox(
+                        height: 70.0,
+                        child: Image.asset('assets/images/logo_app.png'),
+                      ),
                     ),
                   ),
                   SizedBox(

@@ -1,6 +1,7 @@
 import 'package:alues_shrimp_app/pages/feed_control_page/feeding_setting_page.dart';
 import 'package:alues_shrimp_app/pages/home_page/component/feedCalenderCard.dart';
 import 'package:alues_shrimp_app/pages/feed_control_page/component/feedingSettingCard.dart';
+import 'package:alues_shrimp_app/pages/home_page/home_page_navbar.dart';
 import 'package:alues_shrimp_app/proses/get_data.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -58,7 +59,7 @@ class _FeedControlPageState extends State<FeedControlPage> {
             child: Padding(
               padding: EdgeInsets.only(
                 left: 20.0,
-                top: 40.0,
+                top: 50.0,
                 right: 20.0,
                 bottom: 6.0,
               ),
@@ -71,16 +72,26 @@ class _FeedControlPageState extends State<FeedControlPage> {
                     children: [
                       Align(
                         alignment: Alignment.topLeft,
-                        child: SizedBox(
-                          height: 70.0,
-                          child: Image.asset('assets/images/logo_app.png'),
+                        child: GestureDetector(
+                          onTap: () {
+                            Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => HomePageNav(),
+                              ),
+                            );
+                          },
+                          child: SizedBox(
+                            height: 70.0,
+                            child: Image.asset('assets/images/logo_app.png'),
+                          ),
                         ),
                       ),
                       SizedBox(
                         width: 29.0,
                       ),
                       Padding(
-                        padding: const EdgeInsets.only(top: 0.0),
+                        padding: const EdgeInsets.only(top: 20.0),
                         child: Row(
                           children: [
                             SizedBox(

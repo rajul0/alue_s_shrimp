@@ -1,5 +1,7 @@
 import 'package:alues_shrimp_app/pages/home_page/component/feedCalenderCard.dart';
 import 'package:alues_shrimp_app/pages/home_page/component/indexPhCard.dart';
+import 'package:alues_shrimp_app/pages/home_page/home_page_navbar.dart';
+import 'package:alues_shrimp_app/pages/profile_page.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:intl/intl.dart';
@@ -75,7 +77,7 @@ class _HomePageState extends State<HomePage> {
             child: Padding(
               padding: EdgeInsets.only(
                 left: 20.0,
-                top: 26.0,
+                top: 55.0,
                 right: 20.0,
                 bottom: 6.0,
               ),

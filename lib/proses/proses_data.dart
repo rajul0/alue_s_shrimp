@@ -38,7 +38,8 @@ void hidupkanJadwalPakan(dataJadwal) async {
         dataForFirebase['data'][data] = dataSatuHari;
       }
       dataForFirebase['doc_id_ref'] = dataJadwal['doc_id'];
-      _db.collection('Jadwal_pakan').add(dataForFirebase);
+      _db.collection('jadwal_pakan').add(dataForFirebase);
+      print(dataForFirebase);
     } else {
       Map<String, dynamic> dataForFirebase = {};
       dataForFirebase['jam_mulai'] = dataJadwal['jam_mulai'];
@@ -133,6 +134,7 @@ int getTanggalPakan(dataJam, {hari = ''}) {
 
 void matikanJadwalPakan(dataJadwal) async {
   final FirebaseFirestore _db = FirebaseFirestore.instance;
+  print(dataJadwal);
 
   CollectionReference collectionRef = _db.collection('jadwal_pakan');
 
