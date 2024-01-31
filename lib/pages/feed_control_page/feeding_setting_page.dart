@@ -5,11 +5,13 @@ import "package:flutter/services.dart";
 
 // ignore: must_be_immutable
 class FeedingSettingPage extends StatefulWidget {
+  final updateParent;
   Map dataJadwal;
   bool isSwitched = false;
 
   FeedingSettingPage({
     Key? key,
+    required this.updateParent,
     this.dataJadwal = const {},
   }) : super(key: key);
 
@@ -97,7 +99,14 @@ class _FeedingSettingPageState extends State<FeedingSettingPage> {
       var info = await updateJadwalPakan(data, widget.dataJadwal['doc_id']);
 
       if (info == 'berhasil') {
+        // Navigator.pushReplacement(
+        //   context,
+        //   MaterialPageRoute(
+        //     builder: (context) => FeedControlPage(),
+        //   ),
+        // );
         Navigator.pop(context);
+        widget.updateParent();
       } else {}
     } else {
       if (_judul == '') {
@@ -113,7 +122,14 @@ class _FeedingSettingPageState extends State<FeedingSettingPage> {
       try {
         await firestore.collection('pengaturan_jadwal_pakan').add(data);
 
+        // Navigator.pushReplacement(
+        //   context,
+        //   MaterialPageRoute(
+        //     builder: (context) => FeedControlPage(),
+        //   ),
+        // );
         Navigator.pop(context);
+        widget.updateParent();
       } catch (e) {}
     }
   }

@@ -228,24 +228,6 @@ class _LoginPageState extends State<LoginPage> {
                           SizedBox(
                             height: 5.0,
                           ),
-                          Align(
-                            alignment: Alignment.topLeft,
-                            child: Padding(
-                              padding: const EdgeInsets.only(left: 20.0),
-                              child: GestureDetector(
-                                onTap: () {},
-                                child: Text(
-                                  'Lupa Password?',
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontFamily: 'Inter',
-                                    fontWeight: FontWeight.normal,
-                                    fontSize: 12.0,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
                           SizedBox(
                             height: 20.0,
                           ),

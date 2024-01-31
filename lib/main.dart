@@ -36,6 +36,9 @@ class MyApp extends StatelessWidget {
     if (isLoggedIn) {
       return MaterialApp(
         debugShowCheckedModeBanner: false,
+        routes: {
+          '/home': (context) => HomePageNav(),
+        },
         theme: ThemeData(
           fontFamily: 'Inter',
         ),
@@ -44,6 +47,9 @@ class MyApp extends StatelessWidget {
     } else {
       return MaterialApp(
         debugShowCheckedModeBanner: false,
+        routes: {
+          '/home': (context) => HomePageNav(),
+        },
         theme: ThemeData(fontFamily: 'Inter'),
         home: LoginPage(),
       );

@@ -4,11 +4,14 @@ import 'package:flutter/material.dart';
 
 // ignore: must_be_immutable
 class FeedingSettingCard extends StatefulWidget {
+  final updateParent;
   String jamMulai;
   Map data;
   bool isSwitched;
+
   FeedingSettingCard({
     Key? key,
+    required this.updateParent,
     required this.jamMulai,
     required this.data,
     required this.isSwitched,
@@ -28,7 +31,10 @@ class _FeedingSettingCardState extends State<FeedingSettingCard> {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => FeedingSettingPage(dataJadwal: widget.data),
+            builder: (context) => FeedingSettingPage(
+              dataJadwal: widget.data,
+              updateParent: widget.updateParent,
+            ),
           ),
         );
       },
@@ -58,9 +64,9 @@ class _FeedingSettingCardState extends State<FeedingSettingCard> {
                       setState(() {
                         widget.isSwitched = value;
                         if (widget.isSwitched == true) {
-                          hidupkanJadwalPakan(widget.data);
+                          hidupkanJadwalPakan(widget.data, widget.updateParent);
                         } else {
-                          matikanJadwalPakan(widget.data);
+                          matikanJadwalPakan(widget.data, widget.updateParent);
                         }
                       });
                     },

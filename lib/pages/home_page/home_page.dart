@@ -1,7 +1,5 @@
 import 'package:alues_shrimp_app/pages/home_page/component/feedCalenderCard.dart';
 import 'package:alues_shrimp_app/pages/home_page/component/indexPhCard.dart';
-import 'package:alues_shrimp_app/pages/home_page/home_page_navbar.dart';
-import 'package:alues_shrimp_app/pages/profile_page.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:intl/intl.dart';

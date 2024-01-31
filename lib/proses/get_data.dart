@@ -101,3 +101,16 @@ Future getDataAlarm() async {
     return null;
   }
 }
+
+Future<String?> getDocId(collectionName, fieldName, docId) async {
+  QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+      .collection(collectionName)
+      .where(fieldName, isEqualTo: docId)
+      .get();
+
+  if (querySnapshot.docs.isNotEmpty) {
+    return querySnapshot.docs[0].id;
+  } else {
+    return null;
+  }
+}

@@ -17,9 +17,12 @@ class _FeedControlPageState extends State<FeedControlPage> {
   DateTime now = DateTime.now();
   String waktu = '';
 
+  String pesanPemberianPakan = '';
+
   void initState() {
     super.initState();
 
+    getStatusPemberianPakan();
     _getDateTime();
     Future.delayed(Duration(seconds: 1));
   }
@@ -36,6 +39,17 @@ class _FeedControlPageState extends State<FeedControlPage> {
 
   Future fetchData() async {
     return await getDataAlarm();
+  }
+
+  void updateState() {
+    setState(() {});
+  }
+
+  Future getStatusPemberianPakan() async {
+    var dataFuture = getPengaturanPakan();
+    var data = await dataFuture;
+
+    return data;
   }
 
   @override
@@ -103,17 +117,64 @@ class _FeedControlPageState extends State<FeedControlPage> {
                             ),
                             Column(
                               children: [
-                                Text(
-                                  'Pemberian Pakan \n Sedang Berlangsung',
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize:
-                                        MediaQuery.of(context).size.width *
-                                            0.04,
-                                    fontFamily: 'Inter',
-                                  ),
-                                  textAlign: TextAlign.center,
-                                ),
+                                FutureBuilder(
+                                    future: getStatusPemberianPakan(),
+                                    builder: (context, snapshot) {
+                                      if (snapshot.connectionState ==
+                                          ConnectionState.waiting) {
+                                        // Ketika data masih dimuat, tampilkan indikator loading
+                                        return CircularProgressIndicator();
+                                      } else if (snapshot.hasError) {
+                                        // Ketika terjadi error dalam pengambilan data
+                                        return Text(
+                                            'Error: ${snapshot.hasError}');
+                                      } else if (!snapshot.hasData ||
+                                          snapshot.data.isEmpty) {
+                                        return Text(
+                                          'Belum ada \n Pengaturan pakan',
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                0.04,
+                                            fontFamily: 'Inter',
+                                          ),
+                                          textAlign: TextAlign.center,
+                                        );
+                                      } else {
+                                        var data = snapshot.data;
+                                        if (data
+                                            .toString()
+                                            .contains('sedang berlangsung')) {
+                                          return Text(
+                                            'Pemberian pakan \n sedang berlangsung',
+                                            style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: MediaQuery.of(context)
+                                                      .size
+                                                      .width *
+                                                  0.04,
+                                              fontFamily: 'Inter',
+                                            ),
+                                            textAlign: TextAlign.center,
+                                          );
+                                        } else {
+                                          return Text(
+                                            'Pemberian pakan \n segera dilakukan',
+                                            style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: MediaQuery.of(context)
+                                                      .size
+                                                      .width *
+                                                  0.04,
+                                              fontFamily: 'Inter',
+                                            ),
+                                            textAlign: TextAlign.center,
+                                          );
+                                        }
+                                      }
+                                    }),
                                 Text(
                                   waktu,
                                   style: TextStyle(
@@ -185,6 +246,7 @@ class _FeedControlPageState extends State<FeedControlPage> {
                             (index) => Column(
                               children: [
                                 FeedingSettingCard(
+                                  updateParent: updateState,
                                   jamMulai: data[index]['jam_mulai'],
                                   data: data[index],
                                   isSwitched: data[index]['status_hidup'],
@@ -210,7 +272,9 @@ class _FeedControlPageState extends State<FeedControlPage> {
         onPressed: () {
           Navigator.of(context).push(
             MaterialPageRoute(
-              builder: (context) => FeedingSettingPage(),
+              builder: (context) => FeedingSettingPage(
+                updateParent: updateState,
+              ),
             ),
           );
         },
